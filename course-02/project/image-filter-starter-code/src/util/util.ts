@@ -32,3 +32,14 @@ export async function deleteLocalFiles(files:Array<string>){
         fs.unlinkSync(file);
     }
 }
+
+export function imageNotExist(image_url){
+    var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+    var http = new XMLHttpRequest();
+
+    http.open('HEAD', image_url, false);
+    http.send();
+
+    return http.status === 404;
+
+}

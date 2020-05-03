@@ -1,6 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import {filterImageFromURL, deleteLocalFiles} from './util/util';
+import {filterImageFromURL, deleteLocalFiles, imageNotExist} from './util/util';
 
 (async () => {
 
@@ -26,6 +26,19 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
   //    image_url: URL of a publicly accessible image
   // RETURNS
   //   the filtered image file [!!TIP res.sendFile(filteredpath); might be useful]
+  app.get("/filteredimage", (req, res, next) => {
+    if (imageNotExist(req.query.image_url)) {
+      res.status(404).send("image url is broken!")
+    }
+    filterImageFromURL(req.query.image_url).then((local_path) => {
+      res.sendFile(local_path, (err) => {
+        deleteLocalFiles([local_path]);
+        if (err) {
+          next(err);
+        }
+      });
+    }).catch(next);
+  });
 
   /**************************************************************************** */
 
