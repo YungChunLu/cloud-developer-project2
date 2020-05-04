@@ -33,7 +33,7 @@ export async function deleteLocalFiles(files:Array<string>){
     }
 }
 
-export function imageNotExist(image_url){
+export function imageNotExist(image_url: string){
     var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
     var http = new XMLHttpRequest();
 
